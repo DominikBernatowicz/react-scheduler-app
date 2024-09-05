@@ -1,17 +1,16 @@
-import { Box } from '@mui/material';
+import { Box } from "@mui/material";
 import SchedulerView from "./components/SchedulerView";
 
 function App() {
-
   return (
     <Box
       sx={{
         display: "flex",
-        justifyContent: "center", // Wycentrowanie poziome
-        alignItems: "center", // Wycentrowanie pionowe
-        minHeight: "100vh", // Pełna wysokość widoku
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
         minWidth: "100vw",
-        backgroundColor: "#f0f0f0", // Kolor tła dla całej strony
+        backgroundColor: "#f0f0f0",
       }}
     >
       <SchedulerView />

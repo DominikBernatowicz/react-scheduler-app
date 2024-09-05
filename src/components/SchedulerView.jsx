@@ -1,4 +1,4 @@
-import { Card } from "@mui/material";
+import { Box, Card } from "@mui/material";
 import {
   Scheduler,
   WeekView,
@@ -17,8 +17,19 @@ import {
 } from "@devexpress/dx-react-scheduler-material-ui";
 import { EditingState, ViewState } from "@devexpress/dx-react-scheduler";
 import { useState, useEffect } from "react";
-import { getAllEvents, addEvent, updateEvent, deleteEvent } from "../firebase/service/eventApi";
-import { todayButtonMessages, appointmentFormMessages, confirmationDialogMessages } from '../translation/messages';
+import {
+  getAllEvents,
+  addEvent,
+  updateEvent,
+  deleteEvent,
+} from "../firebase/service/eventApi";
+import {
+  todayButtonMessages,
+  appointmentFormMessages,
+  confirmationDialogMessages,
+} from "../translation/messages";
+import LogoComponent from "./LogoComponent";
+import EventForm from "./EventForm";
 
 const SchedulerView = () => {
   const [data, setData] = useState([]);
@@ -41,7 +52,6 @@ const SchedulerView = () => {
         await deleteEvent(deleted);
       }
 
-      // Refresh the data after changes
       const eventsArray = await getAllEvents();
       setData(eventsArray);
     } catch (error) {
@@ -52,7 +62,6 @@ const SchedulerView = () => {
   useEffect(() => {
     getAllEvents()
       .then((eventsArray) => {
-        console.log("Fetched events:", eventsArray);
         setData(eventsArray);
       })
       .catch((error) => {
@@ -61,44 +70,57 @@ const SchedulerView = () => {
   }, []);
 
   return (
-    <Card
-      sx={{
-        margin: { md: 2, xs: 0 },
-        borderRadius: 5,
-        maxWidth: "80rem",
-        boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.5)",
-      }}
-    >
-      <Scheduler data={data} locale={"pl-PL"} height={700}>
-        <EditingState
-          onCommitChanges={onCommitChanges}
-          addedAppointment={addedAppointment}
-          onAddedAppointmentChange={setAddedAppointment}
-          appointmentChanges={appointmentChanges}
-          onAppointmentChangesChange={setAppointmentChanges}
-          editingAppointment={editingAppointment}
-          onEditingAppointmentChange={setEditingAppointment}
-        />
-        <ViewState defaultCurrentViewName="Week" />
+    <>
+      <Card
+        sx={{
+          margin: { md: 2, xs: 0 },
+          borderRadius: 5,
+          maxWidth: "80rem",
+          boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.5)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-around",
+        }}
+      >
+        <LogoComponent />
+      </Box>
+        <Scheduler data={data} locale={"pl-PL"} height={700}>
+          <EditingState
+            onCommitChanges={onCommitChanges}
+            addedAppointment={addedAppointment}
+            onAddedAppointmentChange={setAddedAppointment}
+            appointmentChanges={appointmentChanges}
+            onAppointmentChangesChange={setAppointmentChanges}
+            editingAppointment={editingAppointment}
+            onEditingAppointmentChange={setEditingAppointment}
+          />
+          <ViewState defaultCurrentViewName="Week" />
 
-        <DayView startDayHour={9} endDayHour={18} displayName="Dzień" />
-        <WeekView startDayHour={10} endDayHour={19} displayName="Tydzień" />
-        <MonthView displayName="Miesiąc" />
+          <DayView startDayHour={9} endDayHour={18} displayName="Dzień" />
+          <WeekView startDayHour={10} endDayHour={19} displayName="Tydzień" />
+          <MonthView displayName="Miesiąc" />
 
-        <Toolbar />
-        <DateNavigator />
-        <TodayButton messages={todayButtonMessages} />
-        <ViewSwitcher />
+          <Toolbar />
+          <DateNavigator />
+          <TodayButton messages={todayButtonMessages} />
+          <ViewSwitcher />
 
-        <AllDayPanel />
-        <EditRecurrenceMenu />
-        <ConfirmationDialog messages={confirmationDialogMessages} />
+          <AllDayPanel />
+          <EditRecurrenceMenu />
+          <ConfirmationDialog messages={confirmationDialogMessages} />
 
-        <Appointments />
-        <AppointmentTooltip showCloseButton showOpenButton showDeleteButton />
-        <AppointmentForm messages={appointmentFormMessages} />
-      </Scheduler>
-    </Card>
+          <Appointments />
+          <AppointmentTooltip showCloseButton showOpenButton showDeleteButton />
+          <AppointmentForm messages={appointmentFormMessages} />
+        </Scheduler>
+      </Card>
+    </>
   );
 };
 
