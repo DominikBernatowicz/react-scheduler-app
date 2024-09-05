@@ -16,87 +16,49 @@ import {
   EditRecurrenceMenu,
 } from "@devexpress/dx-react-scheduler-material-ui";
 import { EditingState, ViewState } from "@devexpress/dx-react-scheduler";
-import { initialData } from "../data/data";
-import { useState } from "react";
-
-const messages = {
-  today: "Dziś",
-};
-
-const appointmentFormMessages = {
-  detailsLabel: 'Szczegóły',
-  allDayLabel: 'Cały dzień',
-  titleLabel: "Tytuł",
-  commitCommand: 'Zapisz',
-  moreInformationLabel: 'Więcej informacji',
-  repeatLabel: 'Powtórz',
-  notesLabel: 'Notatki',
-  never: 'Nigdy',
-  daily: 'Dziennie',
-  weekly: 'Tygodniowo',
-  monthly: 'Miesięcznie',
-  yearly: 'Rocznie',
-  repeatEveryLabel: 'Powtarzaj co',
-  daysLabel: 'dzień/dni',
-  endRepeatLabel: 'Koniec powtarzania',
-  onLabel: 'W dniu',
-  afterLabel: 'Po',
-  occurrencesLabel: 'wystąpieniu',
-  weeksOnLabel: 'tygodniach w dniu:',
-  monthsLabel: 'miesiącach',
-  ofEveryMonthLabel: 'każdego miesiąca',
-  theLabel: 'W',
-  firstLabel: 'Pierwszy',
-  secondLabel: 'Drugi',
-  thirdLabel: 'Trzeci',
-  fourthLabel: 'Czwarty',
-  lastLabel: 'Ostatni',
-  yearsLabel: 'latach',
-  ofLabel: 'z',
-  everyLabel: 'Każde'
-};
-
-const confirmationDialogMessages = {
-  discardButton: 'Odrzuć',
-  deleteButton: 'Usuń',
-  cancelButton: 'Anuluj',
-  confirmDeleteMessage: 'Czy na pewno chcesz usunąć tę wizytę?',
-  confirmCancelMessage: 'Odrzucić niezapisane zmiany?'
-}
+import { useState, useEffect } from "react";
+import { getAllEvents, addEvent, updateEvent, deleteEvent } from "../firebase/service/eventApi";
+import { todayButtonMessages, appointmentFormMessages, confirmationDialogMessages } from '../translation/messages';
 
 const SchedulerView = () => {
-  const [currentDate, setCurrentDate] = useState("2018-07-01");
-  const [currentView, setCurrentView] = useState("Week");
-  const [data, setData] = useState(initialData);
+  const [data, setData] = useState([]);
   const [addedAppointment, setAddedAppointment] = useState({});
   const [appointmentChanges, setAppointmentChanges] = useState({});
   const [editingAppointment, setEditingAppointment] = useState(undefined);
 
-  const onCommitChanges = ({ added, changed, deleted }) => {
-    setData((prevData) => {
-      let newData = prevData;
-
+  const onCommitChanges = async ({ added, changed, deleted }) => {
+    try {
       if (added) {
-        const startingAddedId =
-          prevData.length > 0 ? prevData[prevData.length - 1].id + 1 : 0;
-        newData = [...prevData, { id: startingAddedId, ...added }];
+        await addEvent(added);
       }
 
       if (changed) {
-        newData = prevData.map((appointment) =>
-          changed[appointment.id]
-            ? { ...appointment, ...changed[appointment.id] }
-            : appointment
-        );
+        const changedId = Object.keys(changed);
+        await updateEvent(changedId, changed[changedId]);
       }
 
       if (deleted !== undefined) {
-        newData = prevData.filter((appointment) => appointment.id !== deleted);
+        await deleteEvent(deleted);
       }
 
-      return newData;
-    });
+      // Refresh the data after changes
+      const eventsArray = await getAllEvents();
+      setData(eventsArray);
+    } catch (error) {
+      console.error("Error committing changes:", error.message);
+    }
   };
+
+  useEffect(() => {
+    getAllEvents()
+      .then((eventsArray) => {
+        console.log("Fetched events:", eventsArray);
+        setData(eventsArray);
+      })
+      .catch((error) => {
+        console.error("Error fetching events:", error.message);
+      });
+  }, []);
 
   return (
     <Card
@@ -117,12 +79,7 @@ const SchedulerView = () => {
           editingAppointment={editingAppointment}
           onEditingAppointmentChange={setEditingAppointment}
         />
-        <ViewState
-          currentDate={currentDate}
-          onCurrentDateChange={setCurrentDate}
-          currentViewName={currentView}
-          onCurrentViewNameChange={setCurrentView}
-        />
+        <ViewState defaultCurrentViewName="Week" />
 
         <DayView startDayHour={9} endDayHour={18} displayName="Dzień" />
         <WeekView startDayHour={10} endDayHour={19} displayName="Tydzień" />
@@ -130,7 +87,7 @@ const SchedulerView = () => {
 
         <Toolbar />
         <DateNavigator />
-        <TodayButton messages={messages} />
+        <TodayButton messages={todayButtonMessages} />
         <ViewSwitcher />
 
         <AllDayPanel />
@@ -138,11 +95,7 @@ const SchedulerView = () => {
         <ConfirmationDialog messages={confirmationDialogMessages} />
 
         <Appointments />
-        <AppointmentTooltip
-          showCloseButton
-          showOpenButton
-          showDeleteButton
-        />
+        <AppointmentTooltip showCloseButton showOpenButton showDeleteButton />
         <AppointmentForm messages={appointmentFormMessages} />
       </Scheduler>
     </Card>
