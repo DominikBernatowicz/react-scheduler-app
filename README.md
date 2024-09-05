@@ -53,6 +53,12 @@ Aplikacja Kalendarza to podstawowe narzędzie do zarządzania wydarzeniami z mo�
    firebase deploy
    ```
 
+## Rozwój
+Planuję dodać następujące funkcjonalności do aplikacji:
+
+  - **Autoryzacja**: Dodanie systemu logowania i rejestracji użytkowników.
+  - **Responsywność**: Dostosowanie interfejsu do urządzeń mobilnych, aby zapewnić optymalne doświadczenie na różnych ekranach.
+
 ## Testowanie
 
-  Aby przetestować aplikację, wejdź na stronę https://react-scheduler-app.web.app/ po wdrożeniu lub uruchom lokalnie aplikację jak opisano powyżej.
+  Aby przetestować aplikację, wejdź na stronę https://react-scheduler-app.web.app/ lub uruchom lokalnie aplikację jak opisano powyżej.
