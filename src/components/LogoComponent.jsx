@@ -1,7 +1,6 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, GlobalStyles } from "@mui/material";
 import { useEffect, useState } from "react";
-
-import { GlobalStyles } from "@mui/material";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 
 // Define your animations
 const globalStyles = (
@@ -53,6 +52,17 @@ const globalStyles = (
       ".logo-wave .delay-8": {
         animationDelay: "1.8s",
       },
+      "@keyframes textShadow": {
+        "0%": {
+          textShadow: "none",
+        },
+        "50%": {
+          textShadow: "0 0 30px #7091E6, 0 0 25px #7091E6, 0 0 40px #7091E6",
+        },
+        "100%": {
+          textShadow: "0 0 10px #7091E6, 0 0 7px #7091E6, 0 0 15px #7091E6",
+        },
+      },
     }}
   />
 );
@@ -71,9 +81,20 @@ const LogoComponent = () => {
         sx={{
           display: "flex",
           flexWrap: "wrap",
+          alignItems: "center",
           margin: 2,
         }}
       >
+        <div
+          style={{
+            transform: isLoaded ? "none" : "translateX(-2rem)",
+            transition: "all 1000ms ease-in-out",
+            opacity: isLoaded ? 1 : 0,
+            marginRight: "1rem",
+          }}
+        >
+          <CalendarTodayIcon color="primary" fontSize="large" />
+        </div>
         {"Calendar".split("").map((letter, index) => (
           <Typography
             key={index}
@@ -82,13 +103,11 @@ const LogoComponent = () => {
               fontWeight: "bold",
               fontSize: 50,
               animation: isLoaded
-                ? `wave 1.5s ease-in-out ${index * 0.1}s forwards`
+                ? letter === "C"
+                  ? "wave 1.5s ease-in-out 0s forwards, textShadow 1.5s ease-in-out 1.5s forwards"
+                  : `wave 1.5s ease-in-out ${index * 0.1}s forwards`
                 : "none",
-              color: letter === "r" ? "#7091E6" : "inherit",
-              textShadow:
-                letter === "r" && isLoaded
-                  ? "0 0 20px #7091E6, 0 0 15px #7091E6, 0 0 30px #7091E6"
-                  : "none",
+              color: letter === "C" ? "#1976d2" : "inherit",
             }}
           >
             {letter}
