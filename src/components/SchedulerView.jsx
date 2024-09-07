@@ -29,7 +29,6 @@ import {
   confirmationDialogMessages,
 } from "../translation/messages";
 import LogoComponent from "./LogoComponent";
-import EventForm from "./EventForm";
 
 const SchedulerView = () => {
   const [data, setData] = useState([]);
