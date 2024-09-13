@@ -1,8 +1,9 @@
 import { ref, onValue, push, set, update, remove } from 'firebase/database'
 import { database } from '../config/firebase'
+import { EventType } from './eventType'
 
 // Dodawanie wydarzenia
-export const addEvent = (eventData) => {
+export const addEvent = (eventData: EventType): Promise<void> => {
   const data = {
     allDay: eventData?.allDay,
     endDate: eventData?.endDate.toISOString(),
@@ -18,19 +19,19 @@ export const addEvent = (eventData) => {
 }
 
 // Funkcja aktualizująca wydarzenie
-export const updateEvent = (eventId, updatedData) => {
+export const updateEvent = (eventId: string, updatedData: EventType) => {
   const eventRef = ref(database, `events/${eventId}`)
   return update(eventRef, updatedData)
 }
 
 // Pobieranie wszystkich wydarzeń
-export const getAllEvents = () => {
+export const getAllEvents = (): Promise<EventType[]> => {
   return new Promise((resolve, reject) => {
     const eventsRef = ref(database, 'events');
     onValue(eventsRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        const eventsArray = Object.keys(data).map((key) => ({
+        const eventsArray: EventType[] = Object.keys(data).map((key) => ({
           id: key,
           startDate: new Date(data[key].startDate),
           endDate: new Date(data[key].endDate),
@@ -47,7 +48,7 @@ export const getAllEvents = () => {
 }
 
 // Usuwanie wydarzenia
-export const deleteEvent = (eventId) => {
+export const deleteEvent = (eventId: string | number) => {
   const eventRef = ref(database, `events/${eventId}`)
   return remove(eventRef)
 }
