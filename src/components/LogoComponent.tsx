@@ -1,6 +1,6 @@
 import { Box, Typography, GlobalStyles } from "@mui/material";
 import { FC, useEffect, useState } from "react";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import DateRangeIcon from "@mui/icons-material/DateRange";
 
 // Define your animations
 const globalStyles = (
@@ -93,7 +93,7 @@ const LogoComponent: FC = () => {
             marginRight: "1rem",
           }}
         >
-          <CalendarTodayIcon color="primary" fontSize="large" />
+          <DateRangeIcon color="primary" fontSize="large" />
         </div>
         {"Calendar".split("").map((letter, index) => (
           <Typography
