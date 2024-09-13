@@ -1,5 +1,5 @@
 import { Box, Typography, GlobalStyles } from "@mui/material";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 
 // Define your animations
@@ -67,7 +67,7 @@ const globalStyles = (
   />
 );
 
-const LogoComponent = () => {
+const LogoComponent: FC = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {

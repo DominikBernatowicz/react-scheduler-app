@@ -36,7 +36,7 @@ Aplikacja Kalendarza to podstawowe narzędzie do zarządzania wydarzeniami z mo�
 6.  **Uruchomienie lokalne:**
    
      ```bash
-     npm start
+     npm run dev
      ```
 
 ## Wdrążenie

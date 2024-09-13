@@ -15,13 +15,13 @@ import {
   AllDayPanel,
   EditRecurrenceMenu,
 } from "@devexpress/dx-react-scheduler-material-ui";
-import { EditingState, ViewState } from "@devexpress/dx-react-scheduler";
-import { useState, useEffect } from "react";
+import { ChangeSet, EditingState, ViewState } from "@devexpress/dx-react-scheduler";
+import { useState, useEffect, FC } from "react";
 import {
   getAllEvents,
   addEvent,
   updateEvent,
-  deleteEvent,
+  deleteEvent
 } from "../firebase/service/eventApi";
 import {
   todayButtonMessages,
@@ -29,32 +29,31 @@ import {
   confirmationDialogMessages,
 } from "../translation/messages";
 import LogoComponent from "./LogoComponent";
+import { EventType } from "@/firebase/service/eventType";
 
-const SchedulerView = () => {
-  const [data, setData] = useState([]);
-  const [addedAppointment, setAddedAppointment] = useState({});
-  const [appointmentChanges, setAppointmentChanges] = useState({});
-  const [editingAppointment, setEditingAppointment] = useState(undefined);
+const SchedulerView: FC = () => {
+  const [data, setData] = useState<EventType[]>([]);
 
-  const onCommitChanges = async ({ added, changed, deleted }) => {
+  const onCommitChanges = async (changes: ChangeSet ) => {
     try {
-      if (added) {
-        await addEvent(added);
+      if (changes.added) {
+        await addEvent(changes.added as EventType);
       }
 
-      if (changed) {
-        const changedId = Object.keys(changed);
-        await updateEvent(changedId, changed[changedId]);
+      if (changes.changed) {
+        const changedId = Object.keys(changes.changed);
+        await updateEvent(changedId[0], changes.changed[changedId[0]]);
       }
 
-      if (deleted !== undefined) {
-        await deleteEvent(deleted);
+      if (changes.deleted !== undefined) {
+        await deleteEvent(changes.deleted);
       }
 
       const eventsArray = await getAllEvents();
       setData(eventsArray);
     } catch (error) {
-      console.error("Error committing changes:", error.message);
+      const errorAsError = error as Error;
+      console.error("Error committing changes:", errorAsError.message);
     }
   };
 
@@ -92,12 +91,6 @@ const SchedulerView = () => {
         <Scheduler data={data} locale={"pl-PL"} height={700}>
           <EditingState
             onCommitChanges={onCommitChanges}
-            addedAppointment={addedAppointment}
-            onAddedAppointmentChange={setAddedAppointment}
-            appointmentChanges={appointmentChanges}
-            onAppointmentChangesChange={setAppointmentChanges}
-            editingAppointment={editingAppointment}
-            onEditingAppointmentChange={setEditingAppointment}
           />
           <ViewState defaultCurrentViewName="Week" />
 
