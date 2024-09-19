@@ -56,9 +56,9 @@ Aplikacja Kalendarza to podstawowe narzędzie do zarządzania wydarzeniami z mo�
 ## Rozwój
 Planuję dodać następujące funkcjonalności do aplikacji:
 
-  - **Autoryzacja**: Dodanie systemu logowania i rejestracji użytkowników.
   - **Responsywność**: Dostosowanie interfejsu do urządzeń mobilnych, aby zapewnić optymalne doświadczenie na różnych ekranach.
   - **Nowy formularz**: Utworzenie niestandardowego formularza do dodawania i edytowania wydarzeń, aby umożliwić bardziej elastyczną walidację z wykorzystaniem useForm i biblioteki yup. Ułatwi to dodawanie dedykowanych komunikatów walidacyjnych oraz kontrolę nad walidacją pól, takich jak tytuł wydarzenia i zakres dat.
+  - **Autoryzacja**: Poprawienie wyglądu formularza logowania i rejestracji.
 
 ## Testowanie
 

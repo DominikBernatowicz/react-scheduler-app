@@ -1,9 +1,8 @@
-// firebase.js
 import { FirebaseOptions, initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 import { getAnalytics } from "firebase/analytics";
+import { getAuth } from "firebase/auth";
 
-// Your web app's Firebase configuration
 const firebaseConfig: FirebaseOptions = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -15,11 +14,10 @@ const firebaseConfig: FirebaseOptions = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const database = getDatabase(app); // Zmieniamy na getDatabase
 
-// Optionally initialize analytics
+const database = getDatabase(app);
 const analytics = getAnalytics(app);
+const auth = getAuth(app);
 
-export { database, analytics }; // Eksportujemy database
+export { auth, database, analytics };
