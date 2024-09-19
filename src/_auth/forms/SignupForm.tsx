@@ -24,9 +24,7 @@ const SignupForm = () => {
     }
 
     try {
-      // Próba rejestracji przy użyciu Firebase Authentication
       await createUserWithEmailAndPassword(auth, email, password);
-      // Po poprawnej rejestracji przekierowanie na stronę główną
       navigate("/");
     } catch {
       setError("Rejestracja nie powiodła się. Sprawdź dane i spróbuj ponownie.");

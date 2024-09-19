@@ -39,8 +39,8 @@ const AccountMenu = () => {
               sx={{
                 width: 32,
                 height: 32,
-                transition: 'transform 0.3s ease', // Płynne przejście
-                transform: open ? 'rotate(360deg)' : 'rotate(0deg)', // Rotacja podczas otwierania
+                transition: 'transform 0.3s ease',
+                transform: open ? 'rotate(360deg)' : 'rotate(0deg)',
               }}
             >
               {open ? <MenuOpenIcon /> : <MenuIcon />}

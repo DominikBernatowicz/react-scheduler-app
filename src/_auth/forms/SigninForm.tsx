@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { TextField, Button, Box, Typography, Alert } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Box,
+  Typography,
+  Alert
+} from "@mui/material";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { auth } from "@/firebase/config/firebase";
@@ -18,9 +24,7 @@ const SigninForm = () => {
     setError(null);
 
     try {
-      // Próba logowania przy użyciu Firebase Authentication
       await signInWithEmailAndPassword(auth, email, password);
-      // Po poprawnym logowaniu przekierowanie na stronę główną
       navigate("/");
     } catch {
       setError("Błąd logowania. Sprawdź dane logowania i spróbuj ponownie.");
