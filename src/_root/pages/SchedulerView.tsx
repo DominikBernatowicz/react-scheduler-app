@@ -17,24 +17,16 @@ import {
 } from "@devexpress/dx-react-scheduler-material-ui";
 import { ChangeSet, EditingState, ViewState } from "@devexpress/dx-react-scheduler";
 import { useState, useEffect, FC } from "react";
-import {
-  getAllEvents,
-  addEvent,
-  updateEvent,
-  deleteEvent
-} from "../firebase/service/eventApi";
-import {
-  todayButtonMessages,
-  appointmentFormMessages,
-  confirmationDialogMessages,
-} from "../translation/messages";
-import LogoComponent from "./LogoComponent";
 import { EventType } from "@/firebase/service/eventType";
+import { addEvent, deleteEvent, getAllEvents, updateEvent } from "@/firebase/service/eventApi";
+import LogoComponent from "@/components/LogoComponent";
+import AccountMenu from "@/components/AccountMenu";
+import { appointmentFormMessages, confirmationDialogMessages, todayButtonMessages } from "@/translation/messages";
 
 const SchedulerView: FC = () => {
   const [data, setData] = useState<EventType[]>([]);
 
-  const onCommitChanges = async (changes: ChangeSet ) => {
+  const onCommitChanges = async (changes: ChangeSet) => {
     try {
       if (changes.added) {
         await addEvent(changes.added as EventType);
@@ -78,16 +70,32 @@ const SchedulerView: FC = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          opacity: 0.8,
         }}
       >
         <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-around",
-        }}
-      >
-        <LogoComponent />
-      </Box>
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            position: "relative",
+          }}
+        >
+          <Box>
+            <LogoComponent />
+          </Box>
+          <Box
+            sx={{
+              position: "absolute",
+              right: 0,
+              top: 0,
+              padding: 4,
+            }}
+          >
+            <AccountMenu />
+          </Box>
+        </Box>
         <Scheduler data={data} locale={"pl-PL"} height={700}>
           <EditingState
             onCommitChanges={onCommitChanges}
