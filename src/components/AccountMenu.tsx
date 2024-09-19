@@ -11,6 +11,8 @@ import Tooltip from '@mui/material/Tooltip';
 import Logout from '@mui/icons-material/Logout';
 import { signOut } from '@/firebase/config/auth';
 import { auth } from '@/firebase/config/firebase';
+import MenuIcon from '@mui/icons-material/Menu';
+import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 
 const AccountMenu = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -33,8 +35,15 @@ const AccountMenu = () => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>
-              {auth.currentUser?.email?.charAt(0).toUpperCase()}
+            <Avatar
+              sx={{
+                width: 32,
+                height: 32,
+                transition: 'transform 0.3s ease', // Płynne przejście
+                transform: open ? 'rotate(360deg)' : 'rotate(0deg)', // Rotacja podczas otwierania
+              }}
+            >
+              {open ? <MenuOpenIcon /> : <MenuIcon />}
             </Avatar>
           </IconButton>
         </Tooltip>
