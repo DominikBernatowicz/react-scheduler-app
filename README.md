@@ -2,7 +2,7 @@
 
 ## Opis
 
-Aplikacja Kalendarza to podstawowe narzędzie do zarządzania wydarzeniami z możliwością dodawania, edytowania i usuwania wydarzeń. Obsługuje widoki dzienny, tygodniowy i miesięczny.
+React Scheduler App to aplikacja do zarządzania kalendarzem, która umożliwia użytkownikom planowanie wydarzeń oraz logowanie i rejestrację przy użyciu Firebase Authentication. Użytkownicy mogą tworzyć, edytować i usuwać wydarzenia, przeglądać je w widokach dziennym, tygodniowym i miesięcznym.
 
 ## Technologie
 
@@ -13,6 +13,9 @@ Aplikacja Kalendarza to podstawowe narzędzie do zarządzania wydarzeniami z mo�
 - **Firebase**: Backend do przechowywania danych i hostingu.
   - **Realtime Database**: Przechowuje i synchronizuje dane o wydarzeniach.
   - **Hosting**: Umożliwia publikację aplikacji w internecie.
+  - **Authentication**: Logowanie i rejestracja użytkowników.
+- **React Router**: Nawigacja między widokami
+- **ESLint & Prettier**: Linting i formatowanie kodu
 
 ## Instalacja
 
@@ -62,4 +65,8 @@ Planuję dodać następujące funkcjonalności do aplikacji:
 
 ## Testowanie
 
-  Aby przetestować aplikację, wejdź na stronę https://react-scheduler-app.web.app/ lub uruchom lokalnie aplikację jak opisano powyżej.
+Aby przetestować działającą aplikację, możesz się zalogować przy użyciu poniższych danych testowych:
+  - Login: `test@test.pl`
+  - Hasło: `testtest`
+
+Odwiedź: [Live Demo](https://react-scheduler-app.web.app)
